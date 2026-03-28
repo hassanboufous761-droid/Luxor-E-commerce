@@ -36,7 +36,7 @@
                             <div style="font-size: 0.8rem; color: #666; max-width: 300px; line-height: 1.2;"><%= order.address %></div>
                         </td>
                         <td style="font-weight: 700; color: var(--primary-color); font-size: 1.1rem;">
-                            <%= parseFloat(order.total_price).toFixed(2) %> €
+                            <%= parseFloat(order.total_price).toFixed(2) %> DH
                         </td>
                         <td>
                             <span class="status-badge <%= order.status === 'En attente' ? 'status-pending' : 'status-delivered' %>">

@@ -53,7 +53,7 @@
                     <hr style="border: 0.5px solid #333; margin-bottom: 2rem;">
                     <div style="display: flex; justify-content: space-between; font-size: 1.4rem; letter-spacing: 1px;">
                         <span style="font-weight: 200;">TOTAL</span>
-                        <span id="finish-total" style="font-weight: 800; color: var(--accent-color);">0.00 €</span>
+                        <span id="finish-total" style="font-weight: 800; color: var(--accent-color);">0.00 DH</span>
                     </div>
                     <button class="btn-luxe sticky-bottom-btn" style="width: 100%; margin-top: 3rem; background: var(--white); color: #000; border: none; font-weight: 800;" onclick="submitOrder()">Confirmer la commande</button>
                 </div>
@@ -74,13 +74,13 @@
                         <img src="${item.image_url}" style="width: 60px; height: 60px; object-fit: cover;">
                         <div style="flex: 1;">
                             <div style="font-size: 0.8rem; letter-spacing: 1px;">${item.name}</div>
-                            <div style="font-size: 0.7rem; color: #888;">Qté: ${item.quantity} × ${item.price} €</div>
+                            <div style="font-size: 0.7rem; color: #888;">Qté: ${item.quantity} × ${item.price} DH</div>
                         </div>
-                        <div style="font-weight: 600;">${(item.price * item.quantity).toFixed(2)} €</div>
+                        <div style="font-weight: 600;">${(item.price * item.quantity).toFixed(2)} DH</div>
                     </div>
                 `;
             });
-            document.getElementById('finish-total').innerText = total.toFixed(2) + ' €';
+            document.getElementById('finish-total').innerText = total.toFixed(2) + ' DH';
         });
 
         async function submitOrder() {

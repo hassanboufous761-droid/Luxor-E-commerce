@@ -22,7 +22,7 @@
                     }
                 }
             %>
-            <%= total.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) %> €
+            <%= total.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) %> DH
         </p>
     </div>
     
@@ -70,7 +70,7 @@
                         <tr>
                             <td style="font-weight: 600;"><%= order.customer_name %></td>
                             <td style="color: #666;"><%= new Date(order.created_at).toLocaleDateString('fr-FR') %></td>
-                            <td style="font-weight: 600;"><%= order.total_price %> €</td>
+                            <td style="font-weight: 600;"><%= order.total_price %> DH</td>
                         </tr>
                     <% } %>
                 <% } else { %>

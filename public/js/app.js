@@ -63,7 +63,7 @@ function updateCartUI() {
                     <img src="${item.image_url}" style="width: 70px; height: 70px; object-fit: cover; margin-right: 20px;" loading="lazy">
                     <div style="flex: 1;">
                         <div style="font-weight: 500; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px;">${item.name}</div>
-                        <div style="font-size: 0.85rem; color: var(--accent-color); font-weight: 600;">${item.price} € <span style="color: #999; font-weight: 300; font-size: 0.7rem; margin-left: 10px;">x ${item.quantity}</span></div>
+                        <div style="font-size: 0.85rem; color: var(--accent-color); font-weight: 600;">${item.price} DH <span style="color: #999; font-weight: 300; font-size: 0.7rem; margin-left: 10px;">x ${item.quantity}</span></div>
                     </div>
                     <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #ccc; cursor: pointer; font-size: 1.2rem; transition: 0.3s;" onmouseover="this.style.color='#000'" onmouseout="this.style.color='#ccc'">&times;</button>
                 </div>
@@ -71,7 +71,7 @@ function updateCartUI() {
         });
         
         if (cartTotal) {
-            cartTotal.innerText = total.toFixed(2) + ' €';
+            cartTotal.innerText = total.toFixed(2) + ' DH';
         }
     }
 }
