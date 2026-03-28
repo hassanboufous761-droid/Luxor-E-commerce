@@ -1,0 +1,69 @@
+<%- include('header-admin') %>
+
+<div style="margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: flex-end;">
+    <div>
+        <h1 style="font-weight: 300; letter-spacing: 5px; text-transform: uppercase;">Commandes Clients</h1>
+        <p style="color: #888; font-size: 0.9rem;">Informations détaillées sur le flux logistique</p>
+    </div>
+</div>
+
+<div class="card">
+    <table style="font-size: 0.9rem;">
+        <thead>
+            <tr>
+                <th style="width: 80px;">ID</th>
+                <th>INFORMATIONS CLIENT</th>
+                <th>CONTACT & LIVRAISON</th>
+                <th>MONTANT</th>
+                <th>STATUT</th>
+                <th style="text-align: right;">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (typeof orders !== 'undefined') { %>
+                <% for (var i = 0; i < orders.length; i++) { 
+                    var order = orders[i];
+                %>
+                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                        <td style="font-weight: 800; color: var(--silver);">#<%= order.id %></td>
+                        <td>
+                            <div style="font-weight: 700; font-size: 1rem; margin-bottom: 3px;"><%= order.customer_name %></div>
+                            <div style="color: #666;"><%= order.email %></div>
+                            <div style="font-size: 0.75rem; color: #999; margin-top: 4px;"><%= new Date(order.created_at).toLocaleString('fr-FR') %></div>
+                        </td>
+                        <td>
+                            <div style="margin-bottom: 3px;"><%= order.phone %></div>
+                            <div style="font-size: 0.8rem; color: #666; max-width: 300px; line-height: 1.2;"><%= order.address %></div>
+                        </td>
+                        <td style="font-weight: 700; color: var(--primary-color); font-size: 1.1rem;">
+                            <%= parseFloat(order.total_price).toFixed(2) %> €
+                        </td>
+                        <td>
+                            <span class="status-badge <%= order.status === 'En attente' ? 'status-pending' : 'status-delivered' %>">
+                                <%= order.status %>
+                            </span>
+                        </td>
+                        <td style="text-align: right; display: flex; gap: 10px; justify-content: flex-end; align-items: center;">
+                            <% if (order.status !== 'Confirmée') { %>
+                                <form action="/admin/orders/confirm/<%= order.id %>" method="POST" style="display:inline;">
+                                    <button type="submit" style="background: transparent; border: 1px solid #27ae60; color: #27ae60; padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; font-weight: 700;">Confirmer</button>
+                                </form>
+                            <% } %>
+                            <form action="/admin/orders/delete/<%= order.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Confirmer la suppression définitive de cette commande ?')">
+                                <button type="submit" style="background: transparent; border: 1px solid #e74c3c; color: #e74c3c; padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; font-weight: 700;">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% } %>
+            <% } else { %>
+                <tr><td colspan="6" style="text-align:center; padding: 2rem;">Aucune commande disponible</td></tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<div style="margin-top: 2rem; color: #888; font-size: 0.8rem; text-align: center;">
+    Chaque commande passée est traitée en priorité selon le protocole LX LUXOR.
+</div>
+
+<%- include('footer-admin') %>

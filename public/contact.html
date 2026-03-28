@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Contact | LX LUXOR</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;500;800&display=swap" rel="stylesheet">
+</head>
+<body style="background-image: var(--bg-marble);">
+
+    <header>
+        <div class="menu-toggle" onclick="toggleMobileNav()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <a href="index.html" class="logo">LU<span>XOR</span></a>
+
+        <div class="nav-container">
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="products.html">Produits</a></li>
+                    <li><a href="about.html">À Propos</a></li>
+                    <li><a href="contact.html" style="color: var(--accent-color);">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <div class="cart-icon" onclick="toggleCart()">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" width="22" alt="Panier">
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+            <h3 style="letter-spacing: 3px; text-transform: uppercase;">Votre Sélection</h3>
+            <span style="cursor: pointer; font-size: 2rem; font-weight: 200;" onclick="toggleCart()">&times;</span>
+        </div>
+        <div id="cart-items"></div>
+        <div style="position: absolute; bottom: 3rem; left: 3rem; right: 3rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 2rem;">
+                <span style="font-weight: 300;">TOTAL</span>
+                <span id="cart-total" style="font-weight: 600;">0.00 €</span>
+            </div>
+            <button class="btn-luxe" style="width: 100%; background: #000; color: #fff;" onclick="window.location.href='checkout.html'">Finaliser</button>
+        </div>
+    </div>
+
+    <section class="contact-container">
+        <div>
+            <h1 style="font-weight: 300; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 2rem;">Nous Contacter</h1>
+            <p style="color: #666; line-height: 1.8; margin-bottom: 2rem;">
+                Notre service client est à votre disposition pour toute demande concernant nos collections ou le suivi de votre commande prestige.
+            </p>
+            <div style="margin-bottom: 1rem;">
+                <strong>EMAIL</strong><br>
+                boufoushassan761@gmail.com
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <strong>TÉLÉPHONE</strong><br>
+                +2127 2411 1589
+            </div>
+            
+            <div style="margin-top: 3rem; display: flex; gap: 1.5rem;">
+                <a href="https://www.instagram.com/l__uxor/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="24" style="filter: grayscale(1);"></a>
+                <a href="https://wa.me/212724111589" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="24" style="filter: grayscale(1);"></a>
+                <a href="mailto:boufoushassan761@gmail.com"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" width="24" style="filter: grayscale(1);"></a>
+            </div>
+        </div>
+
+        <form id="contact-form">
+            <div style="margin-bottom: 1.5rem;">
+                <label style="font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;">Nom</label>
+                <input type="text" id="contact-name" required style="width: 100%; border: none; border-bottom: 1px solid #ddd; padding: 10px 0; outline: none;">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label style="font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;">Email</label>
+                <input type="email" id="contact-email" required style="width: 100%; border: none; border-bottom: 1px solid #ddd; padding: 10px 0; outline: none;">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label style="font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;">Message</label>
+                <textarea id="contact-message" required rows="4" style="width: 100%; border: 1px solid #eee; padding: 15px; margin-top: 10px; outline: none;"></textarea>
+            </div>
+            <button type="submit" class="btn-luxe" style="width: 100%; background: #000; color: #fff; border: none;">Envoyer</button>
+        </form>
+    </section>
+
+    <footer>
+        <div style="margin-bottom: 2rem; display: flex; justify-content: center; gap: 2rem;">
+            <a href="https://www.instagram.com/l__uxor/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="20" style="filter: grayscale(1);"></a>
+            <a href="https://wa.me/212724111589" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="20" style="filter: grayscale(1);"></a>
+            <a href="mailto:boufoushassan761@gmail.com"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" width="20" style="filter: grayscale(1);"></a>
+        </div>
+        <ul class="footer-nav">
+            <li><a href="about.html">Maison Luxor</a></li>
+            <li><a href="contact.html">Service Client</a></li>
+            <li><a href="products.html">Collections</a></li>
+            <li><a href="/admin/login">Accès Privé</a></li>
+        </ul>
+        <div class="copyright">© 2026 LX LUXOR - HAUTE LUNETTERIE</div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('contact-name').value,
+                email: document.getElementById('contact-email').value,
+                message: document.getElementById('contact-message').value
+            };
+
+            try {
+                const response = await fetch('/api/contacts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert('Votre message a été envoyé à la Maison Luxor.');
+                    e.target.reset();
+                } else {
+                    alert('Erreur: ' + result.error);
+                }
+            } catch (err) {
+                alert('Erreur lors de l\'envoi.');
+            }
+        });
+    </script>
+</body>
+</html>

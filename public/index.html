@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LX LUXOR | Haute Lunetterie</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;500;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="menu-toggle" onclick="toggleMobileNav()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <a href="index.html" class="logo">LU<span>XOR</span></a>
+
+        <div class="nav-container">
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" style="color: var(--accent-color);">Accueil</a></li>
+                    <li><a href="products.html">Produits</a></li>
+                    <li><a href="about.html">À Propos</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <div class="cart-icon" onclick="toggleCart()">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" width="22" alt="Panier" loading="lazy">
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-video-container">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="uploads/videoplayback.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay">
+            <h1>Élégance Intemporelle</h1>
+            <p>La Collection Haute Couture 2026</p>
+            <button class="btn-luxe" onclick="document.getElementById('products-section').scrollIntoView({behavior: 'smooth'})">Découvrir</button>
+        </div>
+    </section>
+
+    <section class="brand-grid" id="brand-grid">
+        <!-- Dynamic Categories -->
+    </section>
+
+    <section id="products-section">
+        <h2 class="section-title">La Sélection</h2>
+        <div class="luxury-product-grid" id="product-list">
+            <!-- Dynamic Content -->
+        </div>
+    </section>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+            <h3 style="letter-spacing: 3px; text-transform: uppercase;">Votre Sélection</h3>
+            <span style="cursor: pointer; font-size: 2rem; font-weight: 200;" onclick="toggleCart()">&times;</span>
+        </div>
+        <div id="cart-items"></div>
+        <div style="position: absolute; bottom: 3rem; left: 3rem; right: 3rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 2rem;">
+                <span style="font-weight: 300;">TOTAL</span>
+                <span id="cart-total" style="font-weight: 600;">0.00 €</span>
+            </div>
+            <button class="btn-luxe" style="width: 100%; background: #000; color: #fff;" onclick="window.location.href='checkout.html'">Finaliser</button>
+        </div>
+    </div>
+
+    <footer>
+        <div style="margin-bottom: 2rem; display: flex; justify-content: center; gap: 2rem;">
+            <a href="https://www.instagram.com/l__uxor/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="20" style="filter: grayscale(1);" loading="lazy"></a>
+            <a href="https://wa.me/212724111589" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="20" style="filter: grayscale(1);" loading="lazy"></a>
+            <a href="mailto:boufoushassan761@gmail.com"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" width="20" style="filter: grayscale(1);" loading="lazy"></a>
+        </div>
+        <ul class="footer-nav">
+            <li><a href="about.html">Maison Luxor</a></li>
+            <li><a href="contact.html">Service Client</a></li>
+            <li><a href="products.html">Collections</a></li>
+            <li><a href="/admin/login">Accès Privé</a></li>
+        </ul>
+        <div class="copyright">© 2026 LUXOR - HAUTE LUNETTERIE</div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Load Categories/Brands
+            const catResponse = await fetch('/api/categories');
+            const categories = await catResponse.json();
+            const brandGrid = document.getElementById('brand-grid');
+            
+            categories.forEach(cat => {
+                brandGrid.innerHTML += `
+                    <div class="brand-card" onclick="window.location.href='products.html?category=${encodeURIComponent(cat.name)}'">
+                        <img src="${cat.image_url}" class="brand-img" alt="${cat.name}">
+                        <div class="brand-info">
+                            <h2>${cat.name}</h2>
+                            <p>Découvrir la collection</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Load Featured Products
+            const response = await fetch('/api/products');
+            const products = await response.json();
+            const list = document.getElementById('product-list');
+            
+            products.slice(0, 8).forEach(p => {
+                list.innerHTML += `
+                    <div class="luxury-card">
+                        <div class="img-wrapper">
+                            <img src="${p.image_url}" alt="${p.name}">
+                            <div class="add-overlay">
+                                <button class="btn-luxe" style="width: 100%; background: #000; font-size: 0.7rem;" onclick="addToCart(${JSON.stringify(p).replace(/"/g, '&quot;')})">Ajouter Au Panier</button>
+                            </div>
+                        </div>
+                        <div class="product-meta">
+                            <div class="product-brand">${p.category || 'Luxury Collection'}</div>
+                            <div class="product-title">${p.name}</div>
+                            <div class="product-price">${parseFloat(p.price).toFixed(2)} €</div>
+                        </div>
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>

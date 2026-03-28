@@ -1,0 +1,107 @@
+<%- include('header-admin') %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+    <div>
+        <h1 style="font-weight: 300; letter-spacing: 5px; text-transform: uppercase;">Catalogues & Marques</h1>
+        <p style="color: #888; font-size: 0.9rem;">Gestion des collections affichées sur la page d'accueil</p>
+    </div>
+    <button onclick="document.getElementById('add-cat-modal').style.display='block'" class="btn-luxe" style="background: var(--primary-color); color: var(--white); border: none; padding: 0.8rem 2rem; font-size: 0.8rem;">+ Nouveau Catalogue</button>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 150px;">VISUEL</th>
+                <th>NOM DU CATALOGUE</th>
+                <th style="text-align: right;">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (typeof categories !== 'undefined') { %>
+                <% for (var i = 0; i < categories.length; i++) { 
+                    var cat = categories[i];
+                %>
+                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                        <td>
+                            <div style="width: 100px; height: 60px; overflow: hidden; border-radius: 4px; border: 1px solid #eee;">
+                                <img src="<%= cat.image_url %>" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        </td>
+                        <td style="font-weight: 700; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase;"><%= cat.name %></td>
+                        <td style="text-align: right; display: flex; gap: 1rem; justify-content: flex-end; align-items: center;">
+                            <button 
+                                class="edit-btn"
+                                data-id="<%= cat.id %>"
+                                data-name="<%= cat.name %>"
+                                onclick="openEditCatModalFromData(this)"
+                                style="background: none; border: none; color: #3498db; cursor: pointer; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
+                                Modifier
+                            </button>
+                            <form action="/admin/categories/delete/<%= cat.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Supprimer ce catalogue ? Cela ne supprimera pas les produits associés.')">
+                                <button type="submit" style="background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% } %>
+            <% } else { %>
+                <tr><td colspan="3" style="text-align:center; padding: 2rem;">Aucun catalogue disponible</td></tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<!-- Add Category Modal -->
+<div id="add-cat-modal" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); z-index: 2000; backdrop-filter: blur(5px);">
+    <div style="background: white; width: 500px; margin: 15vh auto; padding: 4rem; border-radius: 0; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+        <h2 style="font-weight: 300; letter-spacing: 3px; margin-bottom: 2rem; text-align: center; text-transform: uppercase;">Nouveau Catalogue</h2>
+        <form action="/admin/categories/add" method="POST" enctype="multipart/form-data">
+            <div style="margin-bottom: 1.5rem;">
+                <label style="font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: #888;">Nom de la Marque / Collection</label>
+                <input type="text" name="name" required style="width: 100%; border: none; border-bottom: 1px solid #ddd; padding: 10px 0; outline: none; font-size: 1rem;">
+            </div>
+            <div style="margin-bottom: 3rem;">
+                <label style="font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: #888;">Image de Couverture (800x600)</label><br>
+                <input type="file" name="image" required style="margin-top: 15px; font-size: 0.8rem;">
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn-luxe" style="flex:2; background: #000; color: #fff; border: none;">Créer le catalogue</button>
+                <button type="button" onclick="document.getElementById('add-cat-modal').style.display='none'" class="btn-luxe" style="flex:1;">Annuler</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Category Modal -->
+<div id="edit-cat-modal" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); z-index: 2000; backdrop-filter: blur(5px);">
+    <div style="background: white; width: 500px; margin: 15vh auto; padding: 4rem; border-radius: 0; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+        <h2 style="font-weight: 300; letter-spacing: 3px; margin-bottom: 2rem; text-align: center; text-transform: uppercase;">Modifier le Catalogue</h2>
+        <form id="edit-cat-form" method="POST" enctype="multipart/form-data">
+            <div style="margin-bottom: 1.5rem;">
+                <label style="font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: #888;">Nom de la Marque / Collection</label>
+                <input type="text" name="name" id="edit-cat-name" required style="width: 100%; border: none; border-bottom: 1px solid #ddd; padding: 10px 0; outline: none; font-size: 1rem;">
+            </div>
+            <div style="margin-bottom: 3rem;">
+                <label style="font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: #888;">Nouvelle Image (Optionnel)</label><br>
+                <input type="file" name="image" style="margin-top: 15px; font-size: 0.8rem;">
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn-luxe" style="flex:2; background: #000; color: #fff; border: none;">Mettre à jour</button>
+                <button type="button" onclick="document.getElementById('edit-cat-modal').style.display='none'" class="btn-luxe" style="flex:1;">Annuler</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openEditCatModalFromData(btn) {
+        const id = btn.getAttribute('data-id');
+        const name = btn.getAttribute('data-name');
+
+        document.getElementById('edit-cat-form').action = '/admin/categories/update/' + id;
+        document.getElementById('edit-cat-name').value = name;
+        document.getElementById('edit-cat-modal').style.display = 'block';
+    }
+</script>
+
+<%- include('footer-admin') %>

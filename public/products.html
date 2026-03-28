@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Produits | LX LUXOR</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;500;800&display=swap" rel="stylesheet">
+</head>
+<body style="background-image: var(--bg-marble);">
+
+    <header>
+        <div class="menu-toggle" onclick="toggleMobileNav()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <a href="index.html" class="logo">LU<span>XOR</span></a>
+
+        <div class="nav-container">
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="products.html" style="color: var(--accent-color);">Produits</a></li>
+                    <li><a href="about.html">À Propos</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <div class="cart-icon" onclick="toggleCart()">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" width="22" alt="Panier">
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section style="padding: 4rem 5%;">
+        <h1 class="section-title">Toute la Sélection</h1>
+        
+        <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 4rem;">
+            <input type="text" id="product-search" placeholder="Rechercher par modèle ou marque..." style="padding: 1rem; border: none; border-bottom: 1px solid #ddd; width: 400px; background: transparent; font-size: 0.9rem; outline: none;">
+        </div>
+
+        <div class="luxury-product-grid" id="full-product-list">
+            <!-- Dynamic Content -->
+        </div>
+    </section>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <!-- Content same as index -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+            <h3 style="letter-spacing: 3px; text-transform: uppercase;">Votre Sélection</h3>
+            <span style="cursor: pointer; font-size: 2rem; font-weight: 200;" onclick="toggleCart()">&times;</span>
+        </div>
+        <div id="cart-items"></div>
+        <div style="position: absolute; bottom: 3rem; left: 3rem; right: 3rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 2rem;">
+                <span style="font-weight: 300;">TOTAL</span>
+                <span id="cart-total" style="font-weight: 600;">0.00 €</span>
+            </div>
+            <button class="btn-luxe" style="width: 100%; background: #000; color: #fff;" onclick="window.location.href='checkout.html'">Finaliser</button>
+        </div>
+    </div>
+
+    <footer>
+        <div style="margin-bottom: 2rem; display: flex; justify-content: center; gap: 2rem;">
+            <a href="https://www.instagram.com/l__uxor/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="20" style="filter: grayscale(1);"></a>
+            <a href="https://wa.me/212724111589" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="20" style="filter: grayscale(1);"></a>
+            <a href="mailto:boufoushassan761@gmail.com"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" width="20" style="filter: grayscale(1);"></a>
+        </div>
+        <ul class="footer-nav">
+            <li><a href="about.html">Maison Luxor</a></li>
+            <li><a href="contact.html">Service Client</a></li>
+            <li><a href="products.html">Collections</a></li>
+            <li><a href="/admin/login">Accès Privé</a></li>
+        </ul>
+        <div class="copyright">© 2026 LX LUXOR - HAUTE LUNETTERIE</div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryFilter = urlParams.get('category');
+            
+            const response = await fetch('/api/products');
+            const products = await response.json();
+            const list = document.getElementById('full-product-list');
+            
+            function renderProducts(items) {
+                list.innerHTML = '';
+                items.forEach(p => {
+                    list.innerHTML += `
+                        <div class="luxury-card">
+                            <div class="img-wrapper">
+                                <img src="${p.image_url}" alt="${p.name}">
+                                <div class="add-overlay">
+                                    <button class="btn-luxe" style="width: 100%; background: #000; font-size: 0.7rem;" onclick="addToCart(${JSON.stringify(p).replace(/"/g, '&quot;')})">Ajouter Au Panier</button>
+                                </div>
+                            </div>
+                            <div class="product-meta">
+                                <div class="product-brand">${p.category || 'Luxury Collection'}</div>
+                                <div class="product-title">${p.name}</div>
+                                <div class="product-price">${parseFloat(p.price).toFixed(2)} €</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // Initial Filter
+            let initialItems = products;
+            if (categoryFilter) {
+                document.getElementById('product-search').value = categoryFilter; // Visual cue
+                initialItems = products.filter(p => p.category && p.category.toLowerCase() === categoryFilter.toLowerCase());
+            }
+            renderProducts(initialItems);
+
+            document.getElementById('product-search').addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = products.filter(p => 
+                    p.name.toLowerCase().includes(term) || 
+                    (p.category && p.category.toLowerCase().includes(term))
+                );
+                renderProducts(filtered);
+            });
+        });
+    </script>
+</body>
+</html>
