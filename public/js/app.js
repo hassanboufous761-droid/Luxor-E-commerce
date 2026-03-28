@@ -121,5 +121,50 @@ function goToCheckout() {
     window.location.href = 'checkout.html';
 }
 
+function openProductModal(product) {
+    const modal = document.getElementById('product-modal');
+    if (!modal) return;
+
+    const img = modal.querySelector('.modal-img img');
+    const brand = modal.querySelector('.modal-brand');
+    const title = modal.querySelector('.modal-title');
+    const price = modal.querySelector('.modal-price');
+    const desc = modal.querySelector('.modal-desc');
+    const addToCartBtn = modal.querySelector('.btn-luxe');
+
+    img.src = product.image_url;
+    brand.innerText = product.category || 'Luxury Collection';
+    title.innerText = product.name;
+    price.innerText = parseFloat(product.price).toFixed(2) + ' DH';
+    desc.innerText = product.description || 'Une pièce d\'exception de notre collection.';
+    
+    // Set onclick for the "Add to Cart" button in modal
+    addToCartBtn.onclick = () => {
+        addToCart(product);
+        closeProductModal();
+    };
+
+    modal.classList.add('active');
+    document.body.classList.add('no-scroll');
+}
+
+function closeProductModal() {
+    const modal = document.getElementById('product-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+    }
+}
+
+// Close modal on escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeProductModal();
+        if (document.getElementById('cart-sidebar').classList.contains('active')) {
+            toggleCart();
+        }
+    }
+});
+
 // Initialize UI
 document.addEventListener('DOMContentLoaded', updateCartUI);

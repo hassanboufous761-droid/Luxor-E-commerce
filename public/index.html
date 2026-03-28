@@ -73,6 +73,23 @@
         </div>
     </div>
 
+    <!-- Product Details Modal -->
+    <div id="product-modal" class="product-modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeProductModal()">&times;</span>
+            <div class="modal-img">
+                <img src="" alt="Product Detail">
+            </div>
+            <div class="modal-details">
+                <div class="modal-brand"></div>
+                <h2 class="modal-title"></h2>
+                <div class="modal-price"></div>
+                <p class="modal-desc"></p>
+                <button class="btn-luxe" style="width: 100%; background: #000; color: #fff;">Ajouter Au Panier</button>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div style="margin-bottom: 2rem; display: flex; justify-content: center; gap: 2rem;">
             <a href="https://www.instagram.com/l__uxor/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="20" style="filter: grayscale(1);" loading="lazy"></a>
@@ -119,6 +136,7 @@
                         <div class="img-wrapper">
                             <img src="${p.image_url}" alt="${p.name}">
                             <div class="add-overlay">
+                                <button class="btn-view" onclick="openProductModal(${JSON.stringify(p).replace(/"/g, '&quot;')})">Voir le produit</button>
                                 <button class="btn-luxe" style="width: 100%; background: #000; font-size: 0.7rem;" onclick="addToCart(${JSON.stringify(p).replace(/"/g, '&quot;')})">Ajouter Au Panier</button>
                             </div>
                         </div>

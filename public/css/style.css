@@ -224,6 +224,25 @@ header {
     color: var(--primary-color);
 }
 
+.btn-view {
+    padding: 0.8rem 1.5rem;
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: var(--transition-slow);
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.btn-view:hover {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
 /* --- BRAND GRID --- */
 .brand-grid {
     display: grid;
@@ -487,6 +506,111 @@ footer {
     .luxury-card:hover .add-overlay { transform: translateY(0); opacity: 1; }
     
     .luxury-card img { object-fit: contain; padding: 2rem; } /* Restore desktop lux feel */
+}
+
+/* --- PRODUCT MODAL --- */
+.product-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    backdrop-filter: blur(10px);
+    padding: 20px;
+}
+
+.product-modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--white);
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    position: relative;
+    overflow-y: auto;
+    animation: modalFadeIn 0.5s var(--transition-slow);
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    font-weight: 200;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.modal-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background: var(--secondary-color);
+}
+
+.modal-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 2rem;
+}
+
+.modal-details {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal-brand {
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.modal-title {
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.modal-price {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.modal-desc {
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    font-size: 0.95rem;
+}
+
+@media (min-width: 768px) {
+    .modal-content {
+        grid-template-columns: 1fr 1fr;
+        overflow: hidden;
+    }
+    .modal-details {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
 }
 
 /* Specific Fix for Checkout Mobile */
